@@ -1,15 +1,52 @@
 services:
-  db:
+  rdb-master:
     image: bitnami/postgresql:latest
-    container_name: cad-db
+    container_name: rdb-master
+    restart: always
     env_file:
-      - docker.env
-    volumes:
-      - db-data:/bitnami/postgresql # Persist database data
+      - master.env
     ports:
       - '5432:5432' # Expose PostgreSQL port
+    volumes:
+      - rdb-master-data:/bitnami/postgresql # Persist database data
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rdb-replica:
+    image: bitnami/postgresql:latest
+    container_name: rdb-replica
+    depends_on:
+      rdb-master:
+        condition: service_healthy
+    restart: always
+    env_file:
+      - replica.env
+    ports:
+      - '5433:5432' # Expose replica on a different port
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rdb-shadow:
+    image: bitnami/postgresql:latest
+    container_name: rdb-shadow
+    depends_on:
+      rdb-master:
+        condition: service_healthy
+    restart: always
+    env_file:
+      - shadow.env
+    ports:
+      - "5434:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
       interval: 10s
@@ -20,20 +57,21 @@ services:
     build:
       context: ..
       dockerfile: .docker/Dockerfile
-    container_name: cad-api
+    container_name: api
     restart: unless-stopped
     env_file:
       - ../.env
     ports:
       - '3000:3000'
     depends_on:
-      db:
+      rdb-master:
         condition: service_healthy # Wait until the database is fully ready
     networks:
       - app-network
 
-volumes:
-  db-data: # Volume to persist database data
+volumes: # Volume to persist database data
+  rdb-master-data:
 
 networks:
   app-network: # Network to connect the API and database containers
+    driver: bridge

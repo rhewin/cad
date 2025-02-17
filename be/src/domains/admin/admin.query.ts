@@ -1,8 +1,10 @@
-import { prisma, BaseQuery } from '@/base/query.base'
+import { BaseQuery } from '@/base/query.base'
 import { generatePIN } from '@/utils/helper.util'
 
 export class AdminQuery extends BaseQuery {
   constructor() {
+    const tableName = 'admin'
+
     const visibleFields = {
       uuid: true,
       internalId: true,
@@ -12,11 +14,11 @@ export class AdminQuery extends BaseQuery {
       createdAt: true,
     }
 
-    super(prisma.admin, visibleFields)
+    super(tableName, visibleFields)
   }
 
   getPasswordByEmail = async (email: string) => {
-    return this.table.findFirst({
+    return this.tblRead.findFirst({
       select: {
         uuid: true,
         internalId: true,
@@ -30,7 +32,7 @@ export class AdminQuery extends BaseQuery {
   }
 
   findByInternalId = async (internalId: string) =>
-    this.table.findUnique({
+    this.tblRead.findUnique({
       select: {
         id: true,
       },

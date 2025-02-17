@@ -1,26 +1,36 @@
 import { PrismaClient } from '@prisma/client'
 import cfg from '@/config'
 
-export const prisma = new PrismaClient(cfg.PRISMA_OPT)
+export const prismaWrite = new PrismaClient({
+  ...cfg.PRISMA_OPT,
+  datasources: { db: { url: cfg.RDB_MASTER_URL } },
+})
+
+export const prismaRead = new PrismaClient({
+  ...cfg.PRISMA_OPT,
+  datasources: { db: { url: cfg.RDB_REPLICA_URL } },
+})
 
 export class BaseQuery {
-  protected readonly table
+  protected readonly tblRead
+  protected readonly tblWrite
   protected readonly visibleFields
 
-  constructor(tableName: any, visibleFields: any) {
-    this.table = tableName
+  constructor(tableName: string, visibleFields: any) {
+    this.tblRead = (prismaRead as any)[tableName]
+    this.tblWrite = (prismaWrite as any)[tableName]
     this.visibleFields = visibleFields
   }
 
   selectField = (fields: any) => (!fields ? {} : { select: fields })
 
-  count = async () => this.table.count({ where: { deletedAt: null } })
+  count = async () => this.tblRead.count({ where: { deletedAt: null } })
 
   create = async (data: any) =>
-    this.table.create({ data, ...this.selectField(this.visibleFields) })
+    this.tblWrite.create({ data, ...this.selectField(this.visibleFields) })
 
   getById = async (id: number) =>
-    this.table.findFirst({
+    this.tblRead.findFirst({
       ...this.selectField(this.visibleFields),
       where: {
         id,
@@ -29,7 +39,7 @@ export class BaseQuery {
     })
 
   getByInternalId = async (internalId: number) =>
-    this.table.findFirst({
+    this.tblRead.findFirst({
       ...this.selectField(this.visibleFields),
       where: {
         internalId,
@@ -38,7 +48,7 @@ export class BaseQuery {
     })
 
   getAll = async (skip: number, take: number) =>
-    this.table.findMany({
+    this.tblRead.findMany({
       ...this.selectField(this.visibleFields),
       where: {
         deletedAt: null,
@@ -48,7 +58,7 @@ export class BaseQuery {
     })
 
   update = async (id: number, data: any) =>
-    this.table.update({
+    this.tblWrite.update({
       where: { id },
       data: {
         ...data,
@@ -57,7 +67,7 @@ export class BaseQuery {
     })
 
   updateByInternalId = async (internalId: number, data: any) =>
-    this.table.update({
+    this.tblWrite.update({
       where: { internalId },
       data: {
         ...data,
@@ -67,7 +77,7 @@ export class BaseQuery {
 
   softDeleteById = async (id: number, data: any) => {
     const dateNow = new Date()
-    return this.table.update({
+    return this.tblWrite.update({
       where: { id },
       data: {
         ...data,
@@ -79,7 +89,7 @@ export class BaseQuery {
 
   softDeleteByInternalId = async (internalId: number, data: any) => {
     const dateNow = new Date()
-    return this.table.update({
+    return this.tblWrite.update({
       where: { internalId },
       data: {
         ...data,

@@ -25,6 +25,7 @@ const LOGGER_OPT = {
 
 const PRISMA_OPT = {
   errorFormat: 'pretty' as 'pretty' | 'colorless' | 'minimal',
+  log: ['query', 'info', 'warn', 'error'] as any,
 }
 
 const RATELIMIT_GLOBAL_OPT = {
@@ -83,6 +84,8 @@ export default {
   RATELIMIT_GLOBAL_OPT,
   RATELIMIT_LOGIN_OPT,
   RATELIMIT_GUARD_OPT,
+  RDB_MASTER_URL: process.env.RDB_MASTER_URL,
+  RDB_REPLICA_URL: process.env.RDB_REPLICA_URL,
   VALIDATION: {
     MIN_NAME: 3,
     MAX_NAME: 50,

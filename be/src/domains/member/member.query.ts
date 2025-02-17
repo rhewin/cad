@@ -1,8 +1,10 @@
-import { prisma, BaseQuery } from '@/base/query.base'
+import { BaseQuery } from '@/base/query.base'
 import { generatePIN } from '@/utils/helper.util'
 
 export class MemberQuery extends BaseQuery {
   constructor() {
+    const tableName = 'member'
+
     const visibleFields = {
       internalId: true,
       fullname: true,
@@ -13,11 +15,11 @@ export class MemberQuery extends BaseQuery {
       createdAt: true,
     }
 
-    super(prisma.member, visibleFields)
+    super(tableName, visibleFields)
   }
 
   findByInternalId = async (internalId: string) =>
-    this.table.findUnique({
+    this.tblRead.findUnique({
       select: {
         id: true,
       },
@@ -38,7 +40,7 @@ export class MemberQuery extends BaseQuery {
   }
 
   createNested = async (data: any) =>
-    this.table.create({
+    this.tblWrite.create({
       data: { ...data, memberProfile: { create: {} } },
       ...this.selectField(this.visibleFields),
     })
