@@ -9,6 +9,9 @@ const CORS_OPT = {
 const JWT_OPT = {
   name: 'jwt',
   secret: process.env.JWT_SECRET ?? 'bXlqd3RzZWNyZXQ=',
+  exp: '1d',
+  iss: 'cad',
+  sub: 'auth',
 }
 
 const LOGGER_OPT = {

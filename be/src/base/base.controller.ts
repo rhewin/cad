@@ -53,7 +53,7 @@ const loginUser = async (ctx: any, query: BaseQuery) => {
   }
   const encodedJwtData = encode64(JSON.stringify(jwtData))
   const [sign, errSign] = await attempt(() =>
-    ctx.jwt.sign({ data: encodedJwtData }, { expiresIn: '1d' })
+    ctx.jwt.sign({ data: encodedJwtData })
   )
   return errSign ? jsonError() : jsonOk(sign)
 }
