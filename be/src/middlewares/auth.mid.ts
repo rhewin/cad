@@ -1,5 +1,5 @@
 import { attempt, decode64 } from '@/utils/helper.util'
-import { jsonError } from '@/base/api.base'
+import { jsonError } from '@/base/base.api'
 import type { JwtPayload } from '@/base/index'
 
 export const authMiddleware = async (ctx: any) => {

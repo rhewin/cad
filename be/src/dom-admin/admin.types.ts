@@ -1,13 +1,3 @@
-export interface ReqLogin {
-  email: string
-  password: string
-}
-
-export interface ReqPagination {
-  pageNum?: number
-  perPage?: number
-}
-
 export interface ReqCreateAdmin {
   email: string
   password: string

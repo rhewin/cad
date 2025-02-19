@@ -1,17 +1,16 @@
-import { BaseQuery } from '@/base/query.base'
+import { BaseQuery } from '@/base/base.query'
 import { generatePIN } from '@/utils/helper.util'
 
-export class MemberQuery extends BaseQuery {
+export class AdminQuery extends BaseQuery {
   constructor() {
-    const tableName = 'member'
+    const tableName = 'admin'
 
     const visibleFields = {
+      uuid: true,
       internalId: true,
+      email: true,
       fullname: true,
       nickname: true,
-      email: true,
-      phone: true,
-      status: true,
       createdAt: true,
     }
 
@@ -31,19 +30,14 @@ export class MemberQuery extends BaseQuery {
   generateInternalId = async (): Promise<string> => {
     let pin: string
     let exists: boolean
+
     do {
       pin = generatePIN()
-      exists = !!(await this.findByInternalId(`M${pin}`))
+      exists = !!(await this.findByInternalId(`A${pin}`))
     } while (exists)
 
-    return `M${pin}`
+    return `A${pin}`
   }
-
-  createNested = async (data: any) =>
-    this.tblWrite.create({
-      data: { ...data, memberProfile: { create: {} } },
-      ...this.selectField(this.visibleFields),
-    })
 }
 
-export const memberQuery = new MemberQuery()
+export const adminQuery = new AdminQuery()

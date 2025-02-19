@@ -24,8 +24,8 @@ const LOGGER_OPT = {
 }
 
 const PRISMA_OPT = {
-  errorFormat: 'pretty' as 'pretty' | 'colorless' | 'minimal',
-  log: ['query', 'info', 'warn', 'error'] as any,
+  errorFormat: 'minimal' as 'pretty' | 'colorless' | 'minimal',
+  log: ['query', 'warn'] as any,
 }
 
 const RATELIMIT_GLOBAL_OPT = {

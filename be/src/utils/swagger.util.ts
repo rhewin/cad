@@ -2,9 +2,11 @@ import postmanToOpenApi from 'postman-to-openapi'
 import cfg from '@/config'
 import fs from 'fs'
 import yaml from 'js-yaml'
+import { swagger } from '@elysiajs/swagger'
+import { log } from '@/packages'
 import { resolve } from 'path'
-import { attempt, log } from '@/utils/helper.util'
-import { jsonOk, jsonError } from '@/base/api.base'
+import { attempt } from '@/utils/helper.util'
+import { jsonOk, jsonError } from '@/base/base.api'
 
 const filesDir = resolve(import.meta.dir, '../files')
 
@@ -35,4 +37,6 @@ const toSwaggerYaml = async () => {
   return jsonOk(null)
 }
 
-export { loadSwaggerYaml, toSwaggerYaml }
+const initSwagger = swagger({ documentation: await loadSwaggerYaml() })
+
+export { initSwagger, loadSwaggerYaml, toSwaggerYaml }

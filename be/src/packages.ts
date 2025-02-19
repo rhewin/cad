@@ -1,6 +1,7 @@
 import { rateLimit } from 'elysia-rate-limit'
 import { cors } from '@elysiajs/cors'
 import { jwt } from '@elysiajs/jwt'
+import pino from 'pino'
 import cfg from './config'
 
 const packages = (app: any) => {
@@ -10,4 +11,6 @@ const packages = (app: any) => {
     .use(jwt(cfg.JWT_OPT))
 }
 
-export default packages
+const log = pino(cfg.LOGGER_OPT)
+
+export { packages, log }

@@ -1,19 +1,16 @@
-export interface ReqPagination {
-  pageNum?: number
-  perPage?: number
-}
-
 export interface ReqCreateMember {
-  fullname: string
-  nickname: string
   email?: string
   phone?: string
+  password: string
+  fullname?: string
+  nickname?: string
 }
 
 export interface ReqUpdateMember {
-  fullname?: string
-  nickname?: string
   email?: string
   phone?: string
+  password?: string
+  fullname?: string
+  nickname?: string
   status?: string
 }

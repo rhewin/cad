@@ -10,8 +10,8 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: http://{{api_member}}
   - url: http://{{api_admin}}
+  - url: http://{{api_member}}
   - url: http://{{api_url}}
 components:
   securitySchemes:
@@ -19,92 +19,11 @@ components:
       type: http
       scheme: noauth
 tags:
-  - name: Member
-    description: Manage CRUD Members
   - name: Admin
     description: Manage CRUD Admins
+  - name: Member
+    description: Manage CRUD Members
 paths:
-  /v1/members/:
-    get:
-      tags:
-        - Member
-      summary: List
-      parameters:
-        - name: perPage
-          in: query
-          schema:
-            type: integer
-          example: '10'
-        - name: pageNum
-          in: query
-          schema:
-            type: integer
-          example: '1'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /v1/members:
-    post:
-      tags:
-        - Member
-      summary: Add
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                fullname: Dea Ananda
-                nickname: Dea
-                email: dea@abc.com
-                phone: '+6353082787087'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /v1/members/{id}:
-    put:
-      tags:
-        - Member
-      summary: Edit
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                status: inactive
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: MT1DGB54QZ
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Member
-      summary: Wipe
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: integer
-          required: true
-          example: '1'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
   /v1/admins/login:
     post:
       tags:
@@ -117,14 +36,161 @@ paths:
               type: object
               example:
                 email: superadmin@abc.com
-                password: Test1234
+                password: Test1234!
       security:
         - noauthAuth: []
       responses:
         '200':
-          description: Successful response
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '30'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:11:58 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '286'
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data: >-
+                  eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiZXlKMWRXbGtJam9pTURFNU5URmtaV1V0TlRVMllTMDNNREF3TFRnelltTXRZalV5TURkaU5qUmpPVFptSWl3aWFXNTBaWEp1WVd4SlpDSTZJa0ZGUmt0WldqaFBVbElpTENKcFlYUWlPakUzTXprNU5qY3hNVGw5In0.esXDH7xGDcvBovI9T0Hi_47mECxV3B1_ZyqC-uMg7Fk
+  /v1/admins:
+    post:
+      tags:
+        - Admin
+      summary: Add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: bryan@abc.com
+                password: Test1234!
+                fullname: Bryan Adams
+                nickname: Bryan
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '99'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '60'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:36:52 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '226'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data:
+                  uuid: 01951e36-0a2f-7000-8e88-f63e4ff753c5
+                  internal_id: A8BDG8IYG1
+                  email: bryan@abc.com
+                  fullname: Bryan Adams
+                  nickname: Bryan
+                  created_at: '2025-02-19T12:36:52.964Z'
   /v1/admins/:
     get:
       tags:
@@ -143,30 +209,93 @@ paths:
           example: '1'
       responses:
         '200':
-          description: Successful response
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '37'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:37:15 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '688'
           content:
-            application/json: {}
-  /v1/admins:
-    post:
-      tags:
-        - Admin
-      summary: Add
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
+            application/json:
+              schema:
+                type: object
               example:
-                email: harry@abc.com
-                password: Test1234!
-                fullname: Harry James
-                nickname: Harry
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /v1/admins/{id}:
+                success: true
+                message: success
+                data:
+                  records:
+                    - uuid: 01951dee-556a-7000-83bc-b5207b64c96f
+                      internal_id: AEFKYZ8ORR
+                      email: superadmin@abc.com
+                      fullname: Super Admin
+                      nickname: Superadmin
+                      created_at: '2025-02-19T11:18:33.625Z'
+                    - uuid: 01951e22-d255-7000-9fe3-a7ad4c369161
+                      internal_id: ASB7Q1BWTU
+                      email: adam@abc.com
+                      fullname: Adam Levine
+                      nickname: Adam
+                      created_at: '2025-02-19T12:15:53.515Z'
+                    - uuid: 01951e36-0a2f-7000-8e88-f63e4ff753c5
+                      internal_id: A8BDG8IYG1
+                      email: bryan@abc.com
+                      fullname: Bryan Adams
+                      nickname: Bryan
+                      created_at: '2025-02-19T12:36:52.964Z'
+                  meta:
+                    page_num: '1'
+                    per_page: '10'
+                    total_records: 3
+                    total_pages: 1
+  /v1/admins/{uuid}:
     put:
       tags:
         - Admin
@@ -177,35 +306,637 @@ paths:
             schema:
               type: object
               example:
-                nickname: B
+                fullname: Adam Stuart
       parameters:
-        - name: id
+        - name: uuid
           in: path
           schema:
-            type: integer
+            type: string
           required: true
-          example: '2'
+          example: 01951e22-d255-7000-9fe3-a7ad4c369161
       responses:
         '200':
-          description: Successful response
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '99'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '60'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:38:09 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '462'
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data:
+                  id: 2
+                  uuid: 01951e22-d255-7000-9fe3-a7ad4c369161
+                  internal_id: ASB7Q1BWTU
+                  email: adam@abc.com
+                  password: >-
+                    $argon2id$v=19$m=4,t=3,p=1$Z+hiTaRmA+o7kIxK0l+vWluG0Srjni0mgCSDqubO0Bw$9r7DLXZWYyFOafpoHZ5bOJX3AHnMi5ZpVfXQQpIo4sA
+                  fullname: Adam Stuart
+                  nickname: Adam
+                  status: active
+                  modified_by: AEFKYZ8ORR
+                  created_at: '2025-02-19T12:15:53.515Z'
+                  updated_at: '2025-02-19T12:38:10.179Z'
+                  deleted_at: null
     delete:
       tags:
         - Admin
       summary: Wipe
       parameters:
-        - name: id
+        - name: uuid
           in: path
           schema:
-            type: integer
+            type: string
           required: true
+          example: 01951e36-0a2f-7000-8e88-f63e4ff753c5
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '17'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:38:53 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '36'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+  /v1/members/login:
+    post:
+      tags:
+        - Member
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: chandra@abc.com
+                password: Test1234
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '26'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:31:35 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '286'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data: >-
+                  eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiZXlKMWRXbGtJam9pTURFNU5URmxNekF0WVdVM1pTMDNNREF3TFdGak1EWXRaVEV5TURRME9HUTBNRGMySWl3aWFXNTBaWEp1WVd4SlpDSTZJazB3TWt3M1dVd3hURWNpTENKcFlYUWlPakUzTXprNU5qZ3lPVFY5In0.xQj2VNOgUNJ-ZqYLP8EMXJ6dJvwO9Fsx-gV10dx16vE
+  /v1/members:
+    post:
+      tags:
+        - Member
+      summary: Add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: chandra@abc.com
+                password: Test1234
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '35'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:29:35 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '201'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Ok - Add by Phone
+                  value:
+                    success: true
+                    message: success
+                    data:
+                      internal_id: M0VDSS2HPF
+                      fullname: null
+                      nickname: null
+                      email: null
+                      phone: '+628912732432'
+                      status: onreview
+                      created_at: '2025-02-19T12:29:36.050Z'
+                example-1:
+                  summary: Ok - Add by Email
+                  value:
+                    success: true
+                    message: success
+                    data:
+                      internal_id: M02L7YL1LG
+                      fullname: null
+                      nickname: null
+                      email: chandra@abc.com
+                      phone: null
+                      status: onreview
+                      created_at: '2025-02-19T12:31:01.778Z'
+  /v1/members/:
+    get:
+      tags:
+        - Member
+      summary: List
+      parameters:
+        - name: perPage
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: pageNum
+          in: query
+          schema:
+            type: integer
           example: '1'
       responses:
         '200':
-          description: Successful response
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '98'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '4'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:34:05 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '774'
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data:
+                  records:
+                    - internal_id: MKPWEXKCFV
+                      fullname: Jack Daniel
+                      nickname: Jack
+                      email: jack@abc.com
+                      phone: null
+                      status: onreview
+                      created_at: '2025-02-19T12:25:48.281Z'
+                    - internal_id: MPF1WF2Q9H
+                      fullname: null
+                      nickname: null
+                      email: maya@abc.com
+                      phone: null
+                      status: onreview
+                      created_at: '2025-02-19T12:29:10.062Z'
+                    - internal_id: M0VDSS2HPF
+                      fullname: null
+                      nickname: null
+                      email: null
+                      phone: '+628912732432'
+                      status: onreview
+                      created_at: '2025-02-19T12:29:36.050Z'
+                    - internal_id: M02L7YL1LG
+                      fullname: null
+                      nickname: null
+                      email: chandra@abc.com
+                      phone: null
+                      status: onreview
+                      created_at: '2025-02-19T12:31:01.778Z'
+                  meta:
+                    page_num: '1'
+                    per_page: '10'
+                    total_records: 4
+                    total_pages: 1
+  /v1/members/{uuid}:
+    put:
+      tags:
+        - Member
+      summary: Edit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullname: Jack Daniel
+                nickname: Jack
+      parameters:
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 01951e2b-e582-7000-9ca5-47c799e8787f
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  content-type, authorization, user-agent, accept,
+                  cache-control, host, accept-encoding, connection,
+                  content-length, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '99'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '60'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:33:09 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '477'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
+                data:
+                  id: 1
+                  uuid: 01951e2b-e582-7000-9ca5-47c799e8787f
+                  internal_id: MKPWEXKCFV
+                  fullname: Jack Daniel
+                  nickname: Jack
+                  email: jack@abc.com
+                  phone: null
+                  password: >-
+                    $argon2id$v=19$m=4,t=3,p=1$oKxkUkwimhVPbQmjSHQjdylTTxcaYU/QueqIFxemK/8$MSeGmbPpjdDcSVZ3I8g0aCSLupmq9dj9ACfC8Jf0Gj0
+                  status: onreview
+                  modified_by: AEFKYZ8ORR
+                  created_at: '2025-02-19T12:25:48.281Z'
+                  updated_at: '2025-02-19T12:33:10.254Z'
+                  deleted_at: null
+    delete:
+      tags:
+        - Member
+      summary: Wipe
+      parameters:
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 01951e2f-5fad-7000-a98b-1e46fb1b3c5e
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  authorization, user-agent, accept, cache-control, host,
+                  accept-encoding, connection, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '99'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '60'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:34:53 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '36'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: success
   /:
     get:
       tags:
@@ -213,6 +944,65 @@ paths:
       summary: Health Check
       responses:
         '200':
-          description: Successful response
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Vary:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: GET, POST, PUT, DELETE
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  user-agent, accept, cache-control, host, accept-encoding,
+                  connection, postman-token
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+                example: >-
+                  user-agent, accept, cache-control, host, accept-encoding,
+                  connection, postman-token
+            RateLimit-Limit:
+              schema:
+                type: integer
+                example: '100'
+            RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '97'
+            RateLimit-Reset:
+              schema:
+                type: integer
+                example: '13'
+            Date:
+              schema:
+                type: string
+                example: Wed, 19 Feb 2025 12:35:40 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '49'
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                message: Welcome!
+                data: null

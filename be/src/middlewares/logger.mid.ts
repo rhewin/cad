@@ -1,7 +1,7 @@
-import { log } from '@/utils/helper.util'
+import { log } from '@/packages'
 
 export const loggerMiddleware = async (ctx: any) => {
-  const { method, url, headers } = ctx.request
+  const { method, url, headers } = ctx.request || {}
 
   const allowedHeaders = [
     'accept',
@@ -10,12 +10,15 @@ export const loggerMiddleware = async (ctx: any) => {
     'user-agent',
   ]
 
-  const headersObj = Object.fromEntries(headers.entries())
-  const filteredHeaders = Object.fromEntries(
-    Object.entries(headersObj).filter(([key]) =>
-      allowedHeaders.includes(key.toLowerCase())
+  let filteredHeaders = null
+  if (headers) {
+    const headersObj = Object.fromEntries(headers.entries())
+    filteredHeaders = Object.fromEntries(
+      Object.entries(headersObj).filter(([key]) =>
+        allowedHeaders.includes(key.toLowerCase())
+      )
     )
-  )
+  }
 
-  log.info({ headers: filteredHeaders }, `Incoming request -> ${method} ${url}`)
+  log.info({ headers: filteredHeaders }, `HTTP Request: ${method} ${url}`)
 }

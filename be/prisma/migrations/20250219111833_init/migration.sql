@@ -22,11 +22,13 @@ CREATE TABLE "admins" (
 -- CreateTable
 CREATE TABLE "members" (
     "id" SERIAL NOT NULL,
+    "uuid" VARCHAR(50) NOT NULL,
     "internal_id" VARCHAR(10) NOT NULL,
     "fullname" VARCHAR(100),
     "nickname" VARCHAR(50),
     "email" VARCHAR(255),
     "phone" VARCHAR(20),
+    "password" VARCHAR(255) NOT NULL,
     "status" VARCHAR(20) NOT NULL DEFAULT 'onreview',
     "modified_by" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -71,6 +73,9 @@ CREATE INDEX "idx_admin_fullname" ON "admins"("fullname");
 
 -- CreateIndex
 CREATE INDEX "idx_admin_nickname" ON "admins"("nickname");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "members_uuid_key" ON "members"("uuid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "members_internal_id_key" ON "members"("internal_id");

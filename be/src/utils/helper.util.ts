@@ -1,4 +1,4 @@
-import pino from 'pino'
+import { log } from '@/packages'
 import cfg from '@/config'
 
 const attempt = async <T>(
@@ -23,8 +23,6 @@ const generatePIN = (length: number = 9) =>
     { length },
     () => cfg.CHARS_PIN[Math.floor(Math.random() * cfg.CHARS_PIN.length)]
   ).join('')
-
-const log = pino(cfg.LOGGER_OPT)
 
 const generateUUID7 = () => globalThis.Bun.randomUUIDv7()
 
@@ -98,7 +96,6 @@ export {
   generatePIN,
   generateUUID7,
   getUnixTimestamp,
-  log,
   paginate,
   toSnakeCase,
   toCamelCase,

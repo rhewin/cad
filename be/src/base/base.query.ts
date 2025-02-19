@@ -29,24 +29,6 @@ export class BaseQuery {
   create = async (data: any) =>
     this.tblWrite.create({ data, ...this.selectField(this.visibleFields) })
 
-  getById = async (id: number) =>
-    this.tblRead.findFirst({
-      ...this.selectField(this.visibleFields),
-      where: {
-        id,
-        deletedAt: null,
-      },
-    })
-
-  getByInternalId = async (internalId: number) =>
-    this.tblRead.findFirst({
-      ...this.selectField(this.visibleFields),
-      where: {
-        internalId,
-        deletedAt: null,
-      },
-    })
-
   getAll = async (skip: number, take: number) =>
     this.tblRead.findMany({
       ...this.selectField(this.visibleFields),
@@ -57,40 +39,48 @@ export class BaseQuery {
       take,
     })
 
-  update = async (id: number, data: any) =>
-    this.tblWrite.update({
-      where: { id },
-      data: {
-        ...data,
-        updatedAt: new Date(),
+  getById = async (uuid: string) =>
+    this.tblRead.findFirst({
+      ...this.selectField(this.visibleFields),
+      where: {
+        uuid,
+        deletedAt: null,
       },
     })
 
-  updateByInternalId = async (internalId: number, data: any) =>
-    this.tblWrite.update({
-      where: { internalId },
-      data: {
-        ...data,
-        updatedAt: new Date(),
+  getPasswordByEmail = async (email: string) => {
+    return this.tblRead.findFirst({
+      select: {
+        uuid: true,
+        internalId: true,
+        password: true,
       },
-    })
-
-  softDeleteById = async (id: number, data: any) => {
-    const dateNow = new Date()
-    return this.tblWrite.update({
-      where: { id },
-      data: {
-        ...data,
-        updatedAt: dateNow,
-        deletedAt: dateNow,
+      where: {
+        email,
+        deletedAt: null,
       },
     })
   }
 
-  softDeleteByInternalId = async (internalId: number, data: any) => {
+  update = async (uuid: string, data: any) =>
+    this.tblWrite.update({
+      where: {
+        uuid,
+        deletedAt: null,
+      },
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
+    })
+
+  softDelete = async (uuid: string, data: any) => {
     const dateNow = new Date()
     return this.tblWrite.update({
-      where: { internalId },
+      where: {
+        uuid,
+        deletedAt: null,
+      },
       data: {
         ...data,
         updatedAt: dateNow,

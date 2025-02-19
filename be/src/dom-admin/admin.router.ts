@@ -2,7 +2,7 @@ import { rateLimit } from 'elysia-rate-limit'
 import cfg from '@/config'
 import check from './admin.checker'
 import ctrl from './admin.controller'
-import { jsonError } from '@/base/api.base'
+import { jsonError } from '@/base/base.api'
 import { authMiddleware } from '@/middlewares/auth.mid'
 
 const prefix = '/v1/admins'
@@ -15,7 +15,7 @@ export default (app: any) =>
       .use(rateLimit(cfg.RATELIMIT_GUARD_OPT))
       .get('/', (ctx: any) => ctrl.list(ctx))
       .post('/', (ctx: any) => ctrl.add(ctx), check.add)
-      .put('/:internalId', (ctx: any) => ctrl.edit(ctx), check.edit)
-      .delete('/:internalId', (ctx: any) => ctrl.wipe(ctx))
+      .put('/:uuid', (ctx: any) => ctrl.edit(ctx), check.edit)
+      .delete('/:uuid', (ctx: any) => ctrl.wipe(ctx))
       .onError(({ code, error }: any) => jsonError(code, error.all))
   )

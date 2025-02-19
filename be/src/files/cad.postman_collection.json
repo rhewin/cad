@@ -7,17 +7,233 @@
   },
   "item": [
     {
-      "name": "Member",
+      "name": "Admin",
       "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let responseBody = pm.response.json();\r",
+                  "let token = responseBody.data;\r",
+                  "\r",
+                  "pm.environment.set(\"token\", token);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"superadmin@abc.com\",\r\n    \"password\": \"Test1234!\"   \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_admin}}/v1/admins/login",
+              "host": ["{{api_admin}}"],
+              "path": ["v1", "admins", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"superadmin@abc.com\",\r\n    \"password\": \"Test1234!\"   \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_admin}}/v1/admins/login",
+                  "host": ["{{api_admin}}"],
+                  "path": ["v1", "admins", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "30"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:11:58 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "286"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": \"eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiZXlKMWRXbGtJam9pTURFNU5URmtaV1V0TlRVMllTMDNNREF3TFRnelltTXRZalV5TURkaU5qUmpPVFptSWl3aWFXNTBaWEp1WVd4SlpDSTZJa0ZGUmt0WldqaFBVbElpTENKcFlYUWlPakUzTXprNU5qY3hNVGw5In0.esXDH7xGDcvBovI9T0Hi_47mECxV3B1_ZyqC-uMg7Fk\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"bryan@abc.com\",\r\n    \"password\": \"Test1234!\",\r\n    \"fullname\": \"Bryan Adams\",\r\n    \"nickname\": \"Bryan\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_admin}}/v1/admins",
+              "host": ["{{api_admin}}"],
+              "path": ["v1", "admins"]
+            }
+          },
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"bryan@abc.com\",\r\n    \"password\": \"Test1234!\",\r\n    \"fullname\": \"Bryan Adams\",\r\n    \"nickname\": \"Bryan\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_admin}}/v1/admins",
+                  "host": ["{{api_admin}}"],
+                  "path": ["v1", "admins"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "60"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:36:52 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "226"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"uuid\": \"01951e36-0a2f-7000-8e88-f63e4ff753c5\",\n        \"internal_id\": \"A8BDG8IYG1\",\n        \"email\": \"bryan@abc.com\",\n        \"fullname\": \"Bryan Adams\",\n        \"nickname\": \"Bryan\",\n        \"created_at\": \"2025-02-19T12:36:52.964Z\"\n    }\n}"
+            }
+          ]
+        },
         {
           "name": "List",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{api_member}}/v1/members/?perPage=10&pageNum=1",
-              "host": ["{{api_member}}"],
-              "path": ["v1", "members", ""],
+              "raw": "{{api_admin}}/v1/admins/?perPage=10&pageNum=1",
+              "host": ["{{api_admin}}"],
+              "path": ["v1", "admins", ""],
               "query": [
                 {
                   "key": "perPage",
@@ -30,29 +246,85 @@
               ]
             }
           },
-          "response": []
-        },
-        {
-          "name": "Add",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"fullname\": \"Dea Ananda\",\r\n    \"nickname\": \"Dea\",\r\n    \"email\": \"dea@abc.com\",\r\n    \"phone\": \"+6353082787087\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_admin}}/v1/admins/?perPage=10&pageNum=1",
+                  "host": ["{{api_admin}}"],
+                  "path": ["v1", "admins", ""],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "1"
+                    }
+                  ]
                 }
-              }
-            },
-            "url": {
-              "raw": "{{api_member}}/v1/members",
-              "host": ["{{api_member}}"],
-              "path": ["v1", "members"]
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "37"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:37:15 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "688"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"records\": [\n            {\n                \"uuid\": \"01951dee-556a-7000-83bc-b5207b64c96f\",\n                \"internal_id\": \"AEFKYZ8ORR\",\n                \"email\": \"superadmin@abc.com\",\n                \"fullname\": \"Super Admin\",\n                \"nickname\": \"Superadmin\",\n                \"created_at\": \"2025-02-19T11:18:33.625Z\"\n            },\n            {\n                \"uuid\": \"01951e22-d255-7000-9fe3-a7ad4c369161\",\n                \"internal_id\": \"ASB7Q1BWTU\",\n                \"email\": \"adam@abc.com\",\n                \"fullname\": \"Adam Levine\",\n                \"nickname\": \"Adam\",\n                \"created_at\": \"2025-02-19T12:15:53.515Z\"\n            },\n            {\n                \"uuid\": \"01951e36-0a2f-7000-8e88-f63e4ff753c5\",\n                \"internal_id\": \"A8BDG8IYG1\",\n                \"email\": \"bryan@abc.com\",\n                \"fullname\": \"Bryan Adams\",\n                \"nickname\": \"Bryan\",\n                \"created_at\": \"2025-02-19T12:36:52.964Z\"\n            }\n        ],\n        \"meta\": {\n            \"page_num\": \"1\",\n            \"per_page\": \"10\",\n            \"total_records\": 3,\n            \"total_pages\": 1\n        }\n    }\n}"
             }
-          },
-          "response": []
+          ]
         },
         {
           "name": "Edit",
@@ -61,7 +333,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"status\": \"inactive\"\r\n}",
+              "raw": "{\r\n    \"fullname\": \"Adam Stuart\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -69,18 +341,101 @@
               }
             },
             "url": {
-              "raw": "{{api_member}}/v1/members/:id",
-              "host": ["{{api_member}}"],
-              "path": ["v1", "members", ":id"],
+              "raw": "{{api_admin}}/v1/admins/:uuid",
+              "host": ["{{api_admin}}"],
+              "path": ["v1", "admins", ":uuid"],
               "variable": [
                 {
-                  "key": "id",
-                  "value": "MT1DGB54QZ"
+                  "key": "uuid",
+                  "value": "01951e22-d255-7000-9fe3-a7ad4c369161"
                 }
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"fullname\": \"Adam Stuart\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_admin}}/v1/admins/:uuid",
+                  "host": ["{{api_admin}}"],
+                  "path": ["v1", "admins", ":uuid"],
+                  "variable": [
+                    {
+                      "key": "uuid",
+                      "value": "01951e22-d255-7000-9fe3-a7ad4c369161"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "60"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:38:09 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "462"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 2,\n        \"uuid\": \"01951e22-d255-7000-9fe3-a7ad4c369161\",\n        \"internal_id\": \"ASB7Q1BWTU\",\n        \"email\": \"adam@abc.com\",\n        \"password\": \"$argon2id$v=19$m=4,t=3,p=1$Z+hiTaRmA+o7kIxK0l+vWluG0Srjni0mgCSDqubO0Bw$9r7DLXZWYyFOafpoHZ5bOJX3AHnMi5ZpVfXQQpIo4sA\",\n        \"fullname\": \"Adam Stuart\",\n        \"nickname\": \"Adam\",\n        \"status\": \"active\",\n        \"modified_by\": \"AEFKYZ8ORR\",\n        \"created_at\": \"2025-02-19T12:15:53.515Z\",\n        \"updated_at\": \"2025-02-19T12:38:10.179Z\",\n        \"deleted_at\": null\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Wipe",
@@ -88,21 +443,95 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{api_member}}/v1/members/:id",
-              "host": ["{{api_member}}"],
-              "path": ["v1", "members", ":id"],
+              "raw": "{{api_admin}}/v1/admins/:uuid",
+              "host": ["{{api_admin}}"],
+              "path": ["v1", "admins", ":uuid"],
               "variable": [
                 {
-                  "key": "id",
-                  "value": "1"
+                  "key": "uuid",
+                  "value": "01951e36-0a2f-7000-8e88-f63e4ff753c5"
                 }
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{api_admin}}/v1/admins/:uuid",
+                  "host": ["{{api_admin}}"],
+                  "path": ["v1", "admins", ":uuid"],
+                  "variable": [
+                    {
+                      "key": "uuid",
+                      "value": "01951e36-0a2f-7000-8e88-f63e4ff753c5"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "17"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:38:53 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
+            }
+          ]
         }
       ],
-      "description": "Manage CRUD Members",
+      "description": "Manage CRUD Admins",
       "auth": {
         "type": "bearer",
         "bearer": [
@@ -133,7 +562,7 @@
       ]
     },
     {
-      "name": "Admin",
+      "name": "Member",
       "item": [
         {
           "name": "Login",
@@ -145,7 +574,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"superadmin@abc.com\",\r\n    \"password\": \"Test1234\"   \r\n}",
+              "raw": "{\r\n    \"email\": \"chandra@abc.com\",\r\n    \"password\": \"Test1234\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -153,12 +582,264 @@
               }
             },
             "url": {
-              "raw": "{{api_admin}}/v1/admins/login",
-              "host": ["{{api_admin}}"],
-              "path": ["v1", "admins", "login"]
+              "raw": "{{api_member}}/v1/members/login",
+              "host": ["{{api_member}}"],
+              "path": ["v1", "members", "login"]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Ok - Login by Email",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"chandra@abc.com\",\r\n    \"password\": \"Test1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_member}}/v1/members/login",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "26"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:31:35 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "286"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": \"eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiZXlKMWRXbGtJam9pTURFNU5URmxNekF0WVdVM1pTMDNNREF3TFdGak1EWXRaVEV5TURRME9HUTBNRGMySWl3aWFXNTBaWEp1WVd4SlpDSTZJazB3TWt3M1dVd3hURWNpTENKcFlYUWlPakUzTXprNU5qZ3lPVFY5In0.xQj2VNOgUNJ-ZqYLP8EMXJ6dJvwO9Fsx-gV10dx16vE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"email\": \"chandra@abc.com\",\r\n    \"password\": \"Test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_member}}/v1/members",
+              "host": ["{{api_member}}"],
+              "path": ["v1", "members"]
+            }
+          },
+          "response": [
+            {
+              "name": "Ok - Add by Phone",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{    \r\n    \"phone\": \"+628912732432\",\r\n    \"password\": \"Test1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_member}}/v1/members",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "35"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:29:35 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "201"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"internal_id\": \"M0VDSS2HPF\",\n        \"fullname\": null,\n        \"nickname\": null,\n        \"email\": null,\n        \"phone\": \"+628912732432\",\n        \"status\": \"onreview\",\n        \"created_at\": \"2025-02-19T12:29:36.050Z\"\n    }\n}"
+            },
+            {
+              "name": "Ok - Add by Email",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{    \r\n    \"email\": \"chandra@abc.com\",\r\n    \"password\": \"Test1234\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_member}}/v1/members",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "60"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:31:00 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "203"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"internal_id\": \"M02L7YL1LG\",\n        \"fullname\": null,\n        \"nickname\": null,\n        \"email\": \"chandra@abc.com\",\n        \"phone\": null,\n        \"status\": \"onreview\",\n        \"created_at\": \"2025-02-19T12:31:01.778Z\"\n    }\n}"
+            }
+          ]
         },
         {
           "name": "List",
@@ -166,9 +847,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{api_admin}}/v1/admins/?perPage=10&pageNum=1",
-              "host": ["{{api_admin}}"],
-              "path": ["v1", "admins", ""],
+              "raw": "{{api_member}}/v1/members/?perPage=10&pageNum=1",
+              "host": ["{{api_member}}"],
+              "path": ["v1", "members", ""],
               "query": [
                 {
                   "key": "perPage",
@@ -181,29 +862,85 @@
               ]
             }
           },
-          "response": []
-        },
-        {
-          "name": "Add",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"harry@abc.com\",\r\n    \"password\": \"Test1234!\",\r\n    \"fullname\": \"Harry James\",\r\n    \"nickname\": \"Harry\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_member}}/v1/members/?perPage=10&pageNum=1",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members", ""],
+                  "query": [
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pageNum",
+                      "value": "1"
+                    }
+                  ]
                 }
-              }
-            },
-            "url": {
-              "raw": "{{api_admin}}/v1/admins",
-              "host": ["{{api_admin}}"],
-              "path": ["v1", "admins"]
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "4"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:34:05 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "774"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"records\": [\n            {\n                \"internal_id\": \"MKPWEXKCFV\",\n                \"fullname\": \"Jack Daniel\",\n                \"nickname\": \"Jack\",\n                \"email\": \"jack@abc.com\",\n                \"phone\": null,\n                \"status\": \"onreview\",\n                \"created_at\": \"2025-02-19T12:25:48.281Z\"\n            },\n            {\n                \"internal_id\": \"MPF1WF2Q9H\",\n                \"fullname\": null,\n                \"nickname\": null,\n                \"email\": \"maya@abc.com\",\n                \"phone\": null,\n                \"status\": \"onreview\",\n                \"created_at\": \"2025-02-19T12:29:10.062Z\"\n            },\n            {\n                \"internal_id\": \"M0VDSS2HPF\",\n                \"fullname\": null,\n                \"nickname\": null,\n                \"email\": null,\n                \"phone\": \"+628912732432\",\n                \"status\": \"onreview\",\n                \"created_at\": \"2025-02-19T12:29:36.050Z\"\n            },\n            {\n                \"internal_id\": \"M02L7YL1LG\",\n                \"fullname\": null,\n                \"nickname\": null,\n                \"email\": \"chandra@abc.com\",\n                \"phone\": null,\n                \"status\": \"onreview\",\n                \"created_at\": \"2025-02-19T12:31:01.778Z\"\n            }\n        ],\n        \"meta\": {\n            \"page_num\": \"1\",\n            \"per_page\": \"10\",\n            \"total_records\": 4,\n            \"total_pages\": 1\n        }\n    }\n}"
             }
-          },
-          "response": []
+          ]
         },
         {
           "name": "Edit",
@@ -212,7 +949,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"nickname\": \"B\"\r\n}",
+              "raw": "{\r\n    \"fullname\": \"Jack Daniel\",\r\n    \"nickname\": \"Jack\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -220,18 +957,101 @@
               }
             },
             "url": {
-              "raw": "{{api_admin}}/v1/admins/:id",
-              "host": ["{{api_admin}}"],
-              "path": ["v1", "admins", ":id"],
+              "raw": "{{api_member}}/v1/members/:uuid",
+              "host": ["{{api_member}}"],
+              "path": ["v1", "members", ":uuid"],
               "variable": [
                 {
-                  "key": "id",
-                  "value": "2"
+                  "key": "uuid",
+                  "value": "01951e2b-e582-7000-9ca5-47c799e8787f"
                 }
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"fullname\": \"Jack Daniel\",\r\n    \"nickname\": \"Jack\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_member}}/v1/members/:uuid",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members", ":uuid"],
+                  "variable": [
+                    {
+                      "key": "uuid",
+                      "value": "01951e2b-e582-7000-9ca5-47c799e8787f"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "content-type, authorization, user-agent, accept, cache-control, host, accept-encoding, connection, content-length, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "60"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:33:09 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "477"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 1,\n        \"uuid\": \"01951e2b-e582-7000-9ca5-47c799e8787f\",\n        \"internal_id\": \"MKPWEXKCFV\",\n        \"fullname\": \"Jack Daniel\",\n        \"nickname\": \"Jack\",\n        \"email\": \"jack@abc.com\",\n        \"phone\": null,\n        \"password\": \"$argon2id$v=19$m=4,t=3,p=1$oKxkUkwimhVPbQmjSHQjdylTTxcaYU/QueqIFxemK/8$MSeGmbPpjdDcSVZ3I8g0aCSLupmq9dj9ACfC8Jf0Gj0\",\n        \"status\": \"onreview\",\n        \"modified_by\": \"AEFKYZ8ORR\",\n        \"created_at\": \"2025-02-19T12:25:48.281Z\",\n        \"updated_at\": \"2025-02-19T12:33:10.254Z\",\n        \"deleted_at\": null\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Wipe",
@@ -239,21 +1059,95 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{api_admin}}/v1/admins/:id",
-              "host": ["{{api_admin}}"],
-              "path": ["v1", "admins", ":id"],
+              "raw": "{{api_member}}/v1/members/:uuid",
+              "host": ["{{api_member}}"],
+              "path": ["v1", "members", ":uuid"],
               "variable": [
                 {
-                  "key": "id",
-                  "value": "1"
+                  "key": "uuid",
+                  "value": "01951e2f-5fad-7000-a98b-1e46fb1b3c5e"
                 }
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Ok",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{api_member}}/v1/members/:uuid",
+                  "host": ["{{api_member}}"],
+                  "path": ["v1", "members", ":uuid"],
+                  "variable": [
+                    {
+                      "key": "uuid",
+                      "value": "01951e2f-5fad-7000-a98b-1e46fb1b3c5e"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Vary",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Access-Control-Allow-Methods",
+                  "value": "GET, POST, PUT, DELETE"
+                },
+                {
+                  "key": "Access-Control-Allow-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "Access-Control-Expose-Headers",
+                  "value": "authorization, user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "60"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 19 Feb 2025 12:34:53 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"success\"\n}"
+            }
+          ]
         }
       ],
-      "description": "Manage CRUD Admins",
+      "description": "Manage CRUD Members",
       "auth": {
         "type": "bearer",
         "bearer": [
@@ -293,7 +1187,74 @@
           "host": ["{{api_url}}"]
         }
       },
-      "response": []
+      "response": [
+        {
+          "name": "Ok",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}",
+              "host": ["{{api_url}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "Vary",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Access-Control-Allow-Methods",
+              "value": "GET, POST, PUT, DELETE"
+            },
+            {
+              "key": "Access-Control-Allow-Headers",
+              "value": "user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+            },
+            {
+              "key": "Access-Control-Expose-Headers",
+              "value": "user-agent, accept, cache-control, host, accept-encoding, connection, postman-token"
+            },
+            {
+              "key": "RateLimit-Limit",
+              "value": "100"
+            },
+            {
+              "key": "RateLimit-Remaining",
+              "value": "97"
+            },
+            {
+              "key": "RateLimit-Reset",
+              "value": "13"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 19 Feb 2025 12:35:40 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "49"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Welcome!\",\n    \"data\": null\n}"
+        }
+      ]
     }
   ]
 }

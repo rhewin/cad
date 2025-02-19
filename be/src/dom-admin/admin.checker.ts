@@ -1,5 +1,5 @@
 import { t } from 'elysia'
-import * as validator from '@/base/checker.base'
+import * as validator from '@/base/base.checker'
 
 const adminStatus = {
   active: 'active',
@@ -8,18 +8,18 @@ const adminStatus = {
 
 const add = {
   body: t.Object({
-    fullname: validator.fullnameRule(),
-    nickname: validator.nicknameRule(),
     email: validator.emailRule(),
     password: validator.strongPasswordRule(),
+    fullname: validator.fullnameRule(),
+    nickname: validator.nicknameRule(),
   }),
 }
 
 const edit = {
   body: t.Object({
+    email: t.Optional(validator.emailRule()),
     fullname: t.Optional(validator.fullnameRule()),
     nickname: t.Optional(validator.nicknameRule()),
-    email: t.Optional(validator.emailRule()),
     status: t.Optional(validator.statusRule(adminStatus)),
   }),
 }
