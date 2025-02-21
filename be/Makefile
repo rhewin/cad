@@ -24,7 +24,7 @@ up:
 
 # Stop and remove the containers
 down:
-	docker-compose -f $(COMPOSE_FILE) down -v --remove-orphans
+	docker-compose -f $(COMPOSE_FILE) down
 
 # Restart the containers
 restart:
@@ -36,7 +36,7 @@ logs:
 
 # Clean up everything
 clean:
-	docker-compose -f $(COMPOSE_FILE) down -v
+	docker-compose -f $(COMPOSE_FILE) down -v --remove-orphans
 	docker system prune -a --volumes
 
 .PHONY: help build up down restart logs clean

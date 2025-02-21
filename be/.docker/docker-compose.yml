@@ -13,9 +13,9 @@ services:
       - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
 
   rdb-replica:
     image: bitnami/postgresql:latest
@@ -32,9 +32,9 @@ services:
       - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
 
   rdb-shadow:
     image: bitnami/postgresql:latest
@@ -47,11 +47,32 @@ services:
       - shadow.env
     ports:
       - "5434:5432"
+    networks:
+      - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6378:6379"
+    command: sh -c "redis-server --requirepass $$REDIS_PASSWORD --appendonly yes"
+    env_file:
+      - docker.env
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
   api:
     build:
@@ -65,12 +86,16 @@ services:
       - '3000:3000'
     depends_on:
       rdb-master:
-        condition: service_healthy # Wait until the database is fully ready
+        condition: service_healthy # Wait until relational db is fully ready
+      redis:
+        condition: service_healthy # Wait until redis is fully ready
     networks:
       - app-network
 
 volumes: # Volume to persist database data
   rdb-master-data:
+  redis-data:
+    driver: local
 
 networks:
   app-network: # Network to connect the API and database containers

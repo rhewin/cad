@@ -4,6 +4,7 @@ import { log } from '@/packages'
 
 const headers = { 'Content-Type': 'application/json' }
 
+// errorMap key should unique & don't contain name of each key
 const errorMap: Record<string, ErrorMap> = {
   VALIDATION: { status: 400, message: 'Validation failed' },
   BAD_REQUEST: { status: 400, message: 'Bad request' },
@@ -13,6 +14,16 @@ const errorMap: Record<string, ErrorMap> = {
   TOO_MANY_REQUESTS: { status: 429, message: 'Too many requests' },
   QUERY: { status: 500, message: 'Bad query' },
   INTERNAL: { status: 500, message: 'Internal server error' },
+}
+
+const findErrorMap = (code: string) => {
+  const foundKey = Object.keys(errorMap).find((key) =>
+    code.toUpperCase().includes(key)
+  )
+
+  return foundKey
+    ? errorMap[foundKey]
+    : { status: 500, message: 'Unknown error' }
 }
 
 const parseContext = (ctx?: any) => {
@@ -32,13 +43,14 @@ const processErrors = (code: string, ctx?: any, data?: any) => {
 
   if (code === 'VALIDATION' && Array.isArray(ctx)) {
     errors = [...new Set(ctx.map((e: any) => e.schema.error.message))]
-  } else if (
-    code === 'QUERY' &&
-    data?.name === 'PrismaClientKnownRequestError'
-  ) {
-    dataLog = data
+  }
+
+  // Check suffix '_MASK' to not exposing real log
+  dataLog = data
+  if (!code.includes('_SHOW')) {
     data = null
   }
+
   return { errors, dataLog, dataProcessed: data }
 }
 
@@ -57,10 +69,7 @@ const jsonError = (
   data?: any,
   note?: string
 ) => {
-  const { status, message } = errorMap[code] || {
-    status: 500,
-    message: 'Unknown error',
-  }
+  const { status, message } = findErrorMap(code)
   const context = parseContext(ctx)
   let { errors, dataLog, dataProcessed } = processErrors(code, ctx, data)
 
@@ -78,6 +87,6 @@ const jsonError = (
   )
 }
 
-const jsonErrorLogin = () => jsonError('INTERNAL', null, null, 'Login failed')
+const jsonErrorLogin = (data: any) => jsonError('INTERNAL', null, data)
 
 export { jsonOk, jsonError, jsonErrorLogin }

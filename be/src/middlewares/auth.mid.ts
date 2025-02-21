@@ -1,6 +1,6 @@
+import type { JwtPayload } from '@/base/index'
 import { attempt, decode64 } from '@/utils/helper.util'
 import { jsonError } from '@/base/base.api'
-import type { JwtPayload } from '@/base/index'
 
 export const authMiddleware = async (ctx: any) => {
   const token = ctx.request.headers
@@ -8,15 +8,12 @@ export const authMiddleware = async (ctx: any) => {
     ?.replace('Bearer ', '')
     .trim()
 
-  if (!token) {
-    return jsonError('UNAUTHORIZED')
-  }
+  if (!token) return jsonError('UNAUTHORIZED')
 
-  const [payload, err] = await attempt(() => ctx.jwt.verify(token))
-  if (err || !payload) {
-    return jsonError('UNAUTHORIZED')
-  }
+  const res = await attempt(() => ctx.jwt.verify(token))
+  if (res.error || !res.data)
+    return jsonError('UNAUTHORIZED', ctx, { error: 'invalid/expired jwt' })
 
-  const decoded = JSON.parse(decode64((payload as JwtPayload).data))
+  const decoded = JSON.parse(decode64((res.data as JwtPayload).data))
   ctx.user = decoded
 }

@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
-
 -- CreateTable
 CREATE TABLE "admins" (
     "id" SERIAL NOT NULL,
@@ -42,7 +39,7 @@ CREATE TABLE "members" (
 CREATE TABLE "member_profile" (
     "id" SERIAL NOT NULL,
     "member_id" INTEGER NOT NULL,
-    "gender" "Gender",
+    "gender" VARCHAR(10),
     "nationality" VARCHAR(50),
     "citizen_id" VARCHAR(50),
     "religion" VARCHAR(50),

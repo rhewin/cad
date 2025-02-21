@@ -3,82 +3,69 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("RDB_MASTER_URL")
+  provider          = "postgresql"
+  url               = env("RDB_MASTER_URL")
   shadowDatabaseUrl = env("RDB_SHADOW_URL")
 }
 
-enum Gender {
-  MALE
-  FEMALE
-}
-
 model Admin {
-  id            Int       @id @default(autoincrement())
-  uuid          String    @unique               @db.VarChar(50) @default(uuid())
-  internalId    String    @unique               @db.VarChar(10) @map("internal_id")
-  email         String    @unique               @db.VarChar(255)
-  password      String                          @db.VarChar(255)
-  fullname      String                          @db.VarChar(100)
-  nickname      String                          @db.VarChar(50)
-  status        String    @default("active")    @db.VarChar(20)
-  modifiedBy    String                          @map("modified_by") @db.VarChar(255)
-  createdAt     DateTime  @default(now())       @map("created_at")
-  updatedAt     DateTime?                       @map("updated_at")
-  deletedAt     DateTime?                       @map("deleted_at")
-
-  @@map("admins")
+  id         Int       @id @default(autoincrement())
+  uuid       String    @unique @default(uuid()) @db.VarChar(50)
+  internalId String    @unique @map("internal_id") @db.VarChar(10)
+  email      String    @unique @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  fullname   String    @db.VarChar(100)
+  nickname   String    @db.VarChar(50)
+  status     String    @default("active") @db.VarChar(20)
+  modifiedBy String    @map("modified_by") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
 
   @@index([fullname], map: "idx_admin_fullname")
   @@index([nickname], map: "idx_admin_nickname")
+  @@map("admins")
 }
 
 model Member {
-  id         Int          @id @default(autoincrement())
-  uuid       String       @unique               @db.VarChar(50) @default(uuid())
-  internalId String       @unique               @db.VarChar(10) @map("internal_id")
-  fullname   String?                            @db.VarChar(100)
-  nickname   String?                            @db.VarChar(50)
-  email      String?      @unique               @db.VarChar(255)
-  phone      String?      @unique               @db.VarChar(20)
-  password   String                             @db.VarChar(255)
-  status     String       @default("onreview")  @db.VarChar(20)
-  modifiedBy String                             @map("modified_by") @db.VarChar(255)
-  createdAt  DateTime     @default(now())       @map("created_at")
-  updatedAt  DateTime?                          @map("updated_at")
-  deletedAt  DateTime?                          @map("deleted_at")
-
-  // Relations:
-  memberProfile           MemberProfile? @relation("MemberProfileRelation")
-
-  @@map("members")
+  id            Int            @id @default(autoincrement())
+  uuid          String         @unique @default(uuid()) @db.VarChar(50)
+  internalId    String         @unique @map("internal_id") @db.VarChar(10)
+  fullname      String?        @db.VarChar(100)
+  nickname      String?        @db.VarChar(50)
+  email         String?        @unique @db.VarChar(255)
+  phone         String?        @unique @db.VarChar(20)
+  password      String         @db.VarChar(255)
+  status        String         @default("onreview") @db.VarChar(20)
+  modifiedBy    String         @map("modified_by") @db.VarChar(255)
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime?      @map("updated_at")
+  deletedAt     DateTime?      @map("deleted_at")
+  memberProfile MemberProfile? @relation("MemberProfileRelation")
 
   @@index([fullname], map: "idx_member_fullname")
   @@index([nickname], map: "idx_member_nickname")
+  @@map("members")
 }
 
 model MemberProfile {
-  id                Int         @id @default(autoincrement())
-  memberId          Int         @unique @map("member_id")
-  gender            Gender?
-  nationality       String?                       @db.VarChar(50)
-  citizenId         String?     @unique           @db.VarChar(50) @map("citizen_id")
-  religion          String?                       @db.VarChar(50)
-  verified          Boolean     @default(false)
-
-  // Relations:
-  member            Member      @relation("MemberProfileRelation", fields: [memberId], references: [id])
-
-  @@map("member_profile")
+  id          Int     @id @default(autoincrement())
+  memberId    Int     @unique @map("member_id")
+  gender      String? @db.VarChar(10)
+  nationality String? @db.VarChar(50)
+  citizenId   String? @unique @map("citizen_id") @db.VarChar(50)
+  religion    String? @db.VarChar(50)
+  verified    Boolean @default(false)
+  member      Member  @relation("MemberProfileRelation", fields: [memberId], references: [id])
 
   @@index([citizenId], map: "idx_member_citizen_id")
+  @@map("member_profile")
 }
 
 model Category {
-  id    Int             @id @default(autoincrement())
-  name  String          @db.VarChar(255)
-
-  @@map("categories")
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
 
   @@index([name], map: "idx_category_name")
+  @@map("categories")
 }

@@ -9,8 +9,16 @@ const CORS_OPT = {
 const JWT_OPT = {
   name: 'jwt',
   secret: process.env.JWT_SECRET ?? 'bXlqd3RzZWNyZXQ=',
-  exp: '1d',
-  iss: 'cad',
+  exp: '15m',
+  iss: process.env.APP_NAME ?? 'app',
+  sub: 'auth',
+}
+
+const JWT_REFRESH_OPT = {
+  name: 'jwtrefresh',
+  secret: process.env.JWT_REFRESH_SECRET ?? 'bXlqd3RyZWZyZXNoc2VjcmV0',
+  exp: '7d',
+  iss: process.env.APP_NAME ?? 'app',
   sub: 'auth',
 }
 
@@ -73,6 +81,7 @@ export default {
   CHARS_PIN: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
   CORS_OPT,
   JWT_OPT,
+  JWT_REFRESH_OPT,
   LOGGER_OPT,
   PRISMA_OPT,
   SWAGGER_OPT,
@@ -87,6 +96,8 @@ export default {
   RATELIMIT_GLOBAL_OPT,
   RATELIMIT_LOGIN_OPT,
   RATELIMIT_GUARD_OPT,
+  REDIS_URL: process.env.REDIS_URL ?? 'redis://:pass@localhost:6379',
+  REDIS_REFRESH_TOKEN_EXP: 60 * 60 * 24 * 7 + 60, // 7 days + 1 min (in seconds)
   RDB_MASTER_URL: process.env.RDB_MASTER_URL,
   RDB_REPLICA_URL: process.env.RDB_REPLICA_URL,
   VALIDATION: {

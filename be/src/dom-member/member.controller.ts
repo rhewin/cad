@@ -1,4 +1,4 @@
-import { attempt, generateUUID7 } from '@/utils/helper.util'
+import { attempt, generateUUID7, transformBody } from '@/utils/helper.util'
 import { hashPassword } from '@/utils/auth.util'
 import { jsonOk, jsonError } from '@/base/base.api'
 import { memberQuery } from './member.query'
@@ -11,12 +11,12 @@ const wipe = async (ctx: any) => wipeData(ctx, memberQuery)
 
 const edit = async (ctx: any) =>
   editData(ctx, memberQuery, {
-    ...(ctx.body as T.ReqUpdateMember),
+    ...(transformBody(ctx.body) as T.ReqUpdateMember),
     modifiedBy: ctx.user.internalId,
   })
 
 const add = async (ctx: any) => {
-  const req = ctx.body as T.ReqCreateMember
+  const req = transformBody(ctx.body) as T.ReqCreateMember
 
   if (!req.email && !req.phone) {
     return jsonError(
@@ -27,15 +27,15 @@ const add = async (ctx: any) => {
     )
   }
 
-  const inputted = {
+  const input = {
     ...req,
     uuid: generateUUID7(),
     internalId: await memberQuery.generateInternalId(),
     password: await hashPassword(req.password),
     modifiedBy: ctx.user.internalId,
   }
-  const [data, err] = await attempt(() => memberQuery.createNested(inputted))
-  return err ? jsonError('QUERY', ctx, err) : jsonOk(data)
+  const res = await attempt(() => memberQuery.createNested(input))
+  return res.error ? jsonError('QUERY', ctx, res.error) : jsonOk(res.data)
 }
 
 export default {

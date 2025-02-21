@@ -1,15 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-import cfg from '@/config'
-
-export const prismaWrite = new PrismaClient({
-  ...cfg.PRISMA_OPT,
-  datasources: { db: { url: cfg.RDB_MASTER_URL } },
-})
-
-export const prismaRead = new PrismaClient({
-  ...cfg.PRISMA_OPT,
-  datasources: { db: { url: cfg.RDB_REPLICA_URL } },
-})
+import { prismaRead, prismaWrite } from '@/packages'
 
 export class BaseQuery {
   protected readonly tblRead

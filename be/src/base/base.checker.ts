@@ -68,3 +68,13 @@ export const mediumPasswordRule = () =>
       message: '[password] must at least 8 chars and 1 number',
     },
   })
+
+export const refreshToken = {
+  body: t.Object({
+    refresh_token: t.String({
+      error: {
+        message: '[refresh_token] must be provided',
+      },
+    }),
+  }),
+}

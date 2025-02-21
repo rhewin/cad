@@ -3,13 +3,16 @@ import cfg from '@/config'
 
 const attempt = async <T>(
   fn: () => Promise<T>
-): Promise<[T | null, Error | null]> => {
+): Promise<{ data: T | null; error: Error | null }> => {
   try {
-    const result = await fn()
-    return [result, null]
+    return { data: await fn(), error: null }
   } catch (error) {
-    log.error(error)
-    return [null, error instanceof Error ? error : new Error(String(error))]
+    log.error(error, 'log attempt')
+
+    return {
+      data: null,
+      error: error instanceof Error ? error : new Error(String(error)),
+    }
   }
 }
 
@@ -89,6 +92,8 @@ const transformKeysToCamelCase = (obj: any): any => {
   return obj
 }
 
+const transformBody = (obj: any): any => transformKeysToCamelCase(obj)
+
 export {
   attempt,
   decode64,
@@ -99,6 +104,7 @@ export {
   paginate,
   toSnakeCase,
   toCamelCase,
+  transformBody,
   transformKeysToSnakeCase,
   transformKeysToCamelCase,
 }

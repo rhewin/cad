@@ -24,16 +24,16 @@ const toSwaggerYaml = async () => {
   const input = resolve(filesDir, `${cfg.APP_NAME}.postman_collection.json`)
   const output = resolve(filesDir, 'collection.yaml')
 
-  const [data, err] = await attempt(() =>
+  const res = await attempt(() =>
     postmanToOpenApi(input, output, cfg.SWAGGER_OPT)
   )
 
-  if (err) {
-    log.error('Error converting Postman collection:', err)
+  if (res.error) {
+    log.error('Error converting Postman collection:', res.error)
     return jsonError()
   }
 
-  log.info(`OpenAPI specs saved to: ${output}`, data)
+  log.info(`OpenAPI specs saved to: ${output}`, res.data)
   return jsonOk(null)
 }
 
