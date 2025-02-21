@@ -12,7 +12,7 @@ export const authMiddleware = async (ctx: any) => {
 
   const res = await attempt(() => ctx.jwt.verify(token))
   if (res.error || !res.data)
-    return jsonError('UNAUTHORIZED', ctx, { error: 'invalid/expired jwt' })
+    return jsonError('FORBIDDEN', ctx, { error: 'invalid/expired token' })
 
   const decoded = JSON.parse(decode64((res.data as JwtPayload).data))
   ctx.user = decoded
