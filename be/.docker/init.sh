@@ -7,9 +7,21 @@ done
 echo "✅ Redis is ready! Starting API..."
 
 echo "🚀 Running database migrations and Prisma setup..."
-bunx prisma generate
-bunx prisma migrate deploy
-bunx prisma db seed
+if ! bunx prisma generate; then
+  echo "❌ Failed to generate Prisma client"
+  exit 1
+fi
+
+if ! bunx prisma migrate deploy; then
+  echo "❌ Failed to apply migrations"
+  exit 1
+fi
+
+if ! bunx prisma db seed; then
+  echo "❌ Failed to seed the database"
+  exit 1
+fi
+echo "✅ Prisma setup complete!"
 
 echo "Starting API Service..."
-exec bun run src/index.ts  # Use `exec` to replace the shell process with Bun
+bun run src/index.ts  # Use `exec` to replace the shell process with Bun

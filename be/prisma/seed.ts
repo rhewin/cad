@@ -35,10 +35,14 @@ async function main() {
     ],
   })
   console.log('Seeded categories')
+  process.exit(0)
 }
 
 main()
-  .catch((e) => console.error(e))
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
   .finally(async () => {
     await prisma.$disconnect()
   })

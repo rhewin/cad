@@ -44,7 +44,7 @@ services:
         condition: service_healthy
     restart: always
     env_file:
-      - shadow.env
+      - ../.env.docker
     ports:
       - '5434:5432'
     networks:
