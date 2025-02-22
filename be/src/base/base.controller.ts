@@ -1,7 +1,12 @@
 import type * as T from '.'
-import type { JwtPayload } from '@/base/index'
-import { isPasswordValid, generateToken, getRefreshToken, saveRefreshToken } from '@/utils/auth.util'
-import { attempt, decode64, encode64, getUnixTimestamp, paginate, transformBody } from '@/utils/helper.util'
+import {
+  isPasswordValid,
+  generateAccessToken,
+  generateToken,
+  getRefreshTokenFromRedis,
+  verifyJwtRefresh,
+} from '@/utils/auth.util'
+import { attempt, getUnixTimestamp, paginate, transformBody } from '@/utils/helper.util'
 import { jsonOk, jsonError, jsonErrorLogin } from '@/base/base.api'
 import { BaseQuery } from '@/base/base.query'
 
@@ -49,32 +54,13 @@ const loginUser = async (ctx: any, query: BaseQuery) => {
   const { user, error } = await loginUserValidate(query, email, password)
   if (error) return error
 
-  const jwtData = {
+  const jwtData: T.JwtData = {
     uuid: user.uuid,
     internalId: user.internalId,
     iat: getUnixTimestamp(),
   }
 
   const { accessToken, refreshToken } = await generateToken(jwtData)
-
-  // const encodedJwtData = encode64(JSON.stringify(jwtData))
-  // const resAccessToken = await attempt(() =>
-  //   ctx.jwt.sign({ data: encodedJwtData })
-  // )
-  // if (resAccessToken.error)
-  //   return jsonError('INTERNAL', ctx, resAccessToken.error)
-
-  // const resRefreshToken = await attempt(() =>
-  //   ctx.jwtrefresh.sign({ data: encodedJwtData })
-  // )
-  // if (resRefreshToken.error)
-  //   return jsonError('INTERNAL', ctx, resRefreshToken.error)
-
-  // const resRedis = await attempt(() =>
-  //   saveRefreshToken(user.uuid, resRefreshToken.data as string)
-  // )
-  // if (resRedis.error) return jsonError('INTERNAL', ctx)
-
   return jsonOk({ accessToken, refreshToken })
 }
 
@@ -83,25 +69,22 @@ const refreshAccToken = async (ctx: any) => {
     refreshToken: string
   }
 
-  const resPayload = await attempt(() => ctx.jwtrefresh.verify(refreshToken))
-  if (resPayload.error) return jsonError('UNAUTHORIZED', ctx, { error: 'jwtRefresh.verify' })
+  const res = await attempt(() => verifyJwtRefresh(refreshToken))
+  if (res.error || !res.data) return jsonError('FORBIDDEN', ctx, { error: 'invalid/expired token' })
 
-  const { uuid } = JSON.parse(decode64((resPayload.data as JwtPayload).data))
+  const { uuid } = res.data.payload as T.JwtData
 
   // Fetch refresh token from Redis
-  const resStoredToken = await attempt(() => getRefreshToken(uuid))
+  const resStoredToken = await attempt(() => getRefreshTokenFromRedis(uuid))
   if (resStoredToken.error) return jsonError('UNAUTHORIZED', ctx, resStoredToken.error)
 
-  if (resStoredToken.error || resStoredToken.data !== refreshToken)
+  if (resStoredToken.data !== refreshToken)
     return jsonError('UNAUTHORIZED', ctx, {
       error: 'unmatched refresh token',
     })
 
   // Generate new access token
-  const newAccessToken = await ctx.jwt.sign({
-    data: (resPayload.data as JwtPayload).data,
-  })
-
+  const newAccessToken = await generateAccessToken(res.data.payload as T.JwtData)
   return jsonOk({ accessToken: newAccessToken })
 }
 

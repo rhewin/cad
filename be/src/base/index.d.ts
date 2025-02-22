@@ -4,7 +4,16 @@ export interface ErrorMap {
 }
 
 export interface JwtPayload {
-  data: string
+  token: string
+  iat: number
+  exp: number
+}
+
+export interface JwtData {
+  uuid: string
+  internalId: string
+  iat: number
+  [key: string]: unknown // Allows arbitrary keys that required by JOSE JWTPayload compatibility
 }
 
 export interface ReqPagination {
