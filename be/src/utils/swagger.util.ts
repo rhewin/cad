@@ -24,9 +24,7 @@ const toSwaggerYaml = async () => {
   const input = resolve(filesDir, `${cfg.APP_NAME}.postman_collection.json`)
   const output = resolve(filesDir, 'collection.yaml')
 
-  const res = await attempt(() =>
-    postmanToOpenApi(input, output, cfg.SWAGGER_OPT)
-  )
+  const res = await attempt(() => postmanToOpenApi(input, output, cfg.SWAGGER_OPT))
 
   if (res.error) {
     log.error('Error converting Postman collection:', res.error)

@@ -12,7 +12,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-user}']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -31,7 +31,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-user}']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -46,11 +46,11 @@ services:
     env_file:
       - shadow.env
     ports:
-      - "5434:5432"
+      - '5434:5432'
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-user}']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -60,16 +60,16 @@ services:
     container_name: redis
     restart: always
     ports:
-      - "6378:6379"
+      - '6378:6379'
     command: sh -c "redis-server --requirepass $$REDIS_PASSWORD --appendonly yes"
     env_file:
-      - docker.env
+      - ../.env.docker
     volumes:
       - redis-data:/data
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', '-a', '$$REDIS_PASSWORD', 'ping']
       interval: 30s
       timeout: 5s
       retries: 3
@@ -81,7 +81,7 @@ services:
     container_name: api
     restart: unless-stopped
     env_file:
-      - ../.env
+      - ../.env.docker
     ports:
       - '3000:3000'
     depends_on:

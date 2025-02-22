@@ -19,12 +19,7 @@ const add = async (ctx: any) => {
   const req = transformBody(ctx.body) as T.ReqCreateMember
 
   if (!req.email && !req.phone) {
-    return jsonError(
-      'BAD_REQUEST',
-      ctx,
-      null,
-      'Either email or phone must be provided'
-    )
+    return jsonError('BAD_REQUEST', ctx, null, 'Either email or phone must be provided')
   }
 
   const input = {

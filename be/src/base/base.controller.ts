@@ -1,18 +1,7 @@
 import type * as T from '.'
 import type { JwtPayload } from '@/base/index'
-import {
-  isPasswordValid,
-  getRefreshToken,
-  saveRefreshToken,
-} from '@/utils/auth.util'
-import {
-  attempt,
-  decode64,
-  encode64,
-  getUnixTimestamp,
-  paginate,
-  transformBody,
-} from '@/utils/helper.util'
+import { isPasswordValid, generateToken, getRefreshToken, saveRefreshToken } from '@/utils/auth.util'
+import { attempt, decode64, encode64, getUnixTimestamp, paginate, transformBody } from '@/utils/helper.util'
 import { jsonOk, jsonError, jsonErrorLogin } from '@/base/base.api'
 import { BaseQuery } from '@/base/base.query'
 
@@ -44,14 +33,9 @@ const wipeData = async (ctx: any, query: BaseQuery) => {
   return res.error ? jsonError('QUERY', ctx, res.error) : jsonOk()
 }
 
-const loginUserValidate = async (
-  query: BaseQuery,
-  email: string,
-  password: string
-) => {
+const loginUserValidate = async (query: BaseQuery, email: string, password: string) => {
   const res = await attempt(() => query.getPasswordByEmail(email))
-  if (res.error || res.data == null)
-    return { error: jsonErrorLogin({ error: 'email not found' }) }
+  if (res.error || res.data == null) return { error: jsonErrorLogin({ error: 'email not found' }) }
 
   if (!(await isPasswordValid(password, res.data.password)))
     return { user: null, error: jsonErrorLogin({ error: 'invalid password' }) }
@@ -70,28 +54,28 @@ const loginUser = async (ctx: any, query: BaseQuery) => {
     internalId: user.internalId,
     iat: getUnixTimestamp(),
   }
-  const encodedJwtData = encode64(JSON.stringify(jwtData))
-  const resAccessToken = await attempt(() =>
-    ctx.jwt.sign({ data: encodedJwtData })
-  )
-  if (resAccessToken.error)
-    return jsonError('INTERNAL', ctx, resAccessToken.error)
 
-  const resRefreshToken = await attempt(() =>
-    ctx.jwtrefresh.sign({ data: encodedJwtData })
-  )
-  if (resRefreshToken.error)
-    return jsonError('INTERNAL', ctx, resRefreshToken.error)
+  const { accessToken, refreshToken } = await generateToken(jwtData)
 
-  const resRedis = await attempt(() =>
-    saveRefreshToken(user.uuid, resRefreshToken.data as string)
-  )
-  if (resRedis.error) return jsonError('INTERNAL', ctx)
+  // const encodedJwtData = encode64(JSON.stringify(jwtData))
+  // const resAccessToken = await attempt(() =>
+  //   ctx.jwt.sign({ data: encodedJwtData })
+  // )
+  // if (resAccessToken.error)
+  //   return jsonError('INTERNAL', ctx, resAccessToken.error)
 
-  return jsonOk({
-    accessToken: resAccessToken.data,
-    refreshToken: resRefreshToken.data,
-  })
+  // const resRefreshToken = await attempt(() =>
+  //   ctx.jwtrefresh.sign({ data: encodedJwtData })
+  // )
+  // if (resRefreshToken.error)
+  //   return jsonError('INTERNAL', ctx, resRefreshToken.error)
+
+  // const resRedis = await attempt(() =>
+  //   saveRefreshToken(user.uuid, resRefreshToken.data as string)
+  // )
+  // if (resRedis.error) return jsonError('INTERNAL', ctx)
+
+  return jsonOk({ accessToken, refreshToken })
 }
 
 const refreshAccToken = async (ctx: any) => {
@@ -100,15 +84,13 @@ const refreshAccToken = async (ctx: any) => {
   }
 
   const resPayload = await attempt(() => ctx.jwtrefresh.verify(refreshToken))
-  if (resPayload.error)
-    return jsonError('UNAUTHORIZED', ctx, { error: 'jwtRefresh.verify' })
+  if (resPayload.error) return jsonError('UNAUTHORIZED', ctx, { error: 'jwtRefresh.verify' })
 
   const { uuid } = JSON.parse(decode64((resPayload.data as JwtPayload).data))
 
   // Fetch refresh token from Redis
   const resStoredToken = await attempt(() => getRefreshToken(uuid))
-  if (resStoredToken.error)
-    return jsonError('UNAUTHORIZED', ctx, resStoredToken.error)
+  if (resStoredToken.error) return jsonError('UNAUTHORIZED', ctx, resStoredToken.error)
 
   if (resStoredToken.error || resStoredToken.data !== refreshToken)
     return jsonError('UNAUTHORIZED', ctx, {

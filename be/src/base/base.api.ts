@@ -17,13 +17,9 @@ const errorMap: Record<string, ErrorMap> = {
 }
 
 const findErrorMap = (code: string) => {
-  const foundKey = Object.keys(errorMap).find((key) =>
-    code.toUpperCase().includes(key)
-  )
+  const foundKey = Object.keys(errorMap).find((key) => code.toUpperCase().includes(key))
 
-  return foundKey
-    ? errorMap[foundKey]
-    : { status: 500, message: 'Unknown error' }
+  return foundKey ? errorMap[foundKey] : { status: 500, message: 'Unknown error' }
 }
 
 const parseContext = (ctx?: any) => {
@@ -55,20 +51,12 @@ const processErrors = (code: string, ctx?: any, data?: any) => {
 }
 
 const jsonOk = (data?: any, message: string = 'success', status = 200) =>
-  new Response(
-    JSON.stringify(transformKeysToSnakeCase({ success: true, message, data })),
-    {
-      status,
-      headers,
-    }
-  )
+  new Response(JSON.stringify(transformKeysToSnakeCase({ success: true, message, data })), {
+    status,
+    headers,
+  })
 
-const jsonError = (
-  code: string = 'INTERNAL',
-  ctx?: any,
-  data?: any,
-  note?: string
-) => {
+const jsonError = (code: string = 'INTERNAL', ctx?: any, data?: any, note?: string) => {
   const { status, message } = findErrorMap(code)
   const context = parseContext(ctx)
   let { errors, dataLog, dataProcessed } = processErrors(code, ctx, data)

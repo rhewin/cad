@@ -14,7 +14,6 @@ prisma/dev.db
 prisma/dev.db-journal
 
 # Ignore environment files (use docker.env instead)
-.env
 .env.local
 .env.development
 .env.production
@@ -28,7 +27,6 @@ yarn-error.log*
 bun-debug.log*
 
 # Ignore Docker-related files (if not needed inside the container)
-.docker
 docker-compose.yml
 Dockerfile
 

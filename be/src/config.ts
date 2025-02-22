@@ -82,6 +82,7 @@ export default {
   CORS_OPT,
   JWT_OPT,
   JWT_REFRESH_OPT,
+  JWE_SECRET: process.env.JWE_SECRET ?? '2CjZCPgTmQEoKVKAdI',
   LOGGER_OPT,
   PRISMA_OPT,
   SWAGGER_OPT,
@@ -109,7 +110,6 @@ export default {
     MAX_PHONE: 15,
     REGEX_FORMAT_PHONE: '^\\+?[1-9]\\d{1,14}$',
     REGEX_FORMAT_MEDIUM_PASSWORD: '^(?=.*[a-z])(?=.*\\d).{8,}$',
-    REGEX_FORMAT_STRONG_PASSWORD:
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
+    REGEX_FORMAT_STRONG_PASSWORD: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
   },
 }

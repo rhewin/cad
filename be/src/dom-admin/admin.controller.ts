@@ -2,13 +2,7 @@ import type * as T from './admin.types'
 import { generateUUID7, transformBody } from '@/utils/helper.util'
 import { hashPassword } from '@/utils/auth.util'
 import { adminQuery } from './admin.query'
-import {
-  listData,
-  addData,
-  editData,
-  wipeData,
-  loginUser,
-} from '@/base/base.controller'
+import { listData, addData, editData, wipeData, loginUser } from '@/base/base.controller'
 
 const login = async (ctx: any) => loginUser(ctx, adminQuery)
 const list = async (ctx: any) => listData(ctx, adminQuery)

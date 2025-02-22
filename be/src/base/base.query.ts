@@ -15,8 +15,7 @@ export class BaseQuery {
 
   count = async () => this.tblRead.count({ where: { deletedAt: null } })
 
-  create = async (data: any) =>
-    this.tblWrite.create({ data, ...this.selectField(this.visibleFields) })
+  create = async (data: any) => this.tblWrite.create({ data, ...this.selectField(this.visibleFields) })
 
   getAll = async (skip: number, take: number) =>
     this.tblRead.findMany({

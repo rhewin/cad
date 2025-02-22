@@ -37,20 +37,20 @@ const redis = new Redis(cfg.REDIS_URL, {
     return Math.min(times * 200, 2000) // Exponential backoff (max 2s delay)
   },
 }).on('error', (err) => {
-  log.error(`❌ Redis is not running. Server shutdown. ${err}`)
+  log.error(`❌ Redis failed, server shutdown. Redis URL: ${cfg.REDIS_URL}, err: ${err}`)
 })
 
 const checkPrismaConnection = async () => {
   const resWrite = await attempt(() => prismaWrite.$connect())
   if (resWrite.error) {
-    log.error('❌ RDB write connection failed. Server shutdown')
+    log.error(`❌ RDB write failed, server shutdown. URL: ${cfg.RDB_MASTER_URL}`)
     process.exit(1)
   }
   log.info('✅ RDB write connected successfully.')
 
   const resRead = await attempt(() => prismaRead.$connect())
   if (resRead.error) {
-    log.error('❌ RDB read connection failed. Server shutdown')
+    log.error(`❌ RDB read failed, server shutdown. URL: ${cfg.RDB_REPLICA_URL}`)
     process.exit(1)
   }
   log.info('✅ RDB read connected successfully.')
@@ -59,18 +59,9 @@ const checkPrismaConnection = async () => {
 const checkRedisConnection = async () => {
   const res = await attempt(() => redis.ping())
   if (!res.data || res.error) {
-    log.error('❌ Redis is not running. Server shutdown')
-    process.exit(1)
+    log.error(`❌ Redis failed, server shutdown. Redis URL: ${cfg.REDIS_URL}`)
   }
   log.info('✅ Redis is running.')
 }
 
-export {
-  packages,
-  log,
-  prismaWrite,
-  prismaRead,
-  redis,
-  checkPrismaConnection,
-  checkRedisConnection,
-}
+export { packages, log, prismaWrite, prismaRead, redis, checkPrismaConnection, checkRedisConnection }

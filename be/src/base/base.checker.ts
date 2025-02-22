@@ -54,8 +54,7 @@ export const strongPasswordRule = () =>
     maxLength: maxPassword,
     pattern: formatStrongPassword,
     error: {
-      message:
-        '[password] must at least 8 chars, 1 uppercase, number & special chars',
+      message: '[password] must at least 8 chars, 1 uppercase, number & special chars',
     },
   })
 
