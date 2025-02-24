@@ -1,8 +1,8 @@
-import { attempt, generateUUID7, transformBody } from '@/utils/helper.util'
+import { generateUUID7, transformBody } from '@/utils/helper.util'
 import { hashPassword } from '@/utils/auth.util'
-import { jsonOk, jsonError } from '@/base/base.api'
+import { jsonError } from '@/base/base.api'
 import { memberQuery } from './member.query'
-import { listData, editData, wipeData, loginUser } from '@/base/base.controller'
+import { listData, addData, editData, wipeData, loginUser } from '@/base/base.controller'
 import type * as T from './member.types'
 
 const login = async (ctx: any) => loginUser(ctx, memberQuery)
@@ -22,15 +22,19 @@ const add = async (ctx: any) => {
     return jsonError('BAD_REQUEST', ctx, null, 'Either email or phone must be provided')
   }
 
-  const input = {
+  const uuid = generateUUID7()
+  return addData(ctx, memberQuery, {
     ...req,
-    uuid: generateUUID7(),
+    uuid,
     internalId: await memberQuery.generateInternalId(),
     password: await hashPassword(req.password),
     modifiedBy: ctx.user.internalId,
-  }
-  const res = await attempt(() => memberQuery.createNested(input))
-  return res.error ? jsonError('QUERY', ctx, res.error) : jsonOk(res.data)
+    memberProfile: {
+      create: {
+        memberUuid: uuid,
+      },
+    },
+  })
 }
 
 export default {

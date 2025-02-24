@@ -36,6 +36,14 @@ export class BaseQuery {
       },
     })
 
+  detailByUUID = async (uuid: number) =>
+    this.tblRead.findUnique({
+      ...this.selectField(this.visibleFields),
+      where: {
+        uuid,
+      },
+    })
+
   getPasswordByEmail = async (email: string) => {
     return this.tblRead.findFirst({
       select: {

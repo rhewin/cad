@@ -102,6 +102,7 @@ export default {
   RDB_MASTER_URL: process.env.RDB_MASTER_URL,
   RDB_REPLICA_URL: process.env.RDB_REPLICA_URL,
   VALIDATION: {
+    CITIZEN_ID_LENGTH: 16,
     MIN_NAME: 3,
     MAX_NAME: 50,
     MIN_PASSWORD: 8,

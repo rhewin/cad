@@ -38,12 +38,6 @@ export class MemberQuery extends BaseQuery {
 
     return `M${pin}`
   }
-
-  createNested = async (data: any) =>
-    this.tblWrite.create({
-      data: { ...data, memberProfile: { create: {} } },
-      ...this.selectField(this.visibleFields),
-    })
 }
 
 export const memberQuery = new MemberQuery()

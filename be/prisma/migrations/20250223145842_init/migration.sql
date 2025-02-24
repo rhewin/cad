@@ -39,6 +39,7 @@ CREATE TABLE "members" (
 CREATE TABLE "member_profile" (
     "id" SERIAL NOT NULL,
     "member_id" INTEGER NOT NULL,
+    "member_uuid" VARCHAR(50) NOT NULL,
     "gender" VARCHAR(10),
     "nationality" VARCHAR(50),
     "citizen_id" VARCHAR(50),
@@ -91,6 +92,9 @@ CREATE INDEX "idx_member_nickname" ON "members"("nickname");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "member_profile_member_id_key" ON "member_profile"("member_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "member_profile_member_uuid_key" ON "member_profile"("member_uuid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "member_profile_citizen_id_key" ON "member_profile"("citizen_id");

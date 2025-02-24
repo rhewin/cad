@@ -20,6 +20,11 @@ const listData = async (ctx: any, query: BaseQuery) => {
   return res.error ? jsonError() : jsonOk({ records: res.data, meta })
 }
 
+const detailDataByUUID = async (ctx: any, query: BaseQuery, id: number) => {
+  const res = await attempt(() => query.detailByUUID(id))
+  return res.error ? jsonError() : jsonOk({ data: res.data })
+}
+
 const addData = async (ctx: any, query: BaseQuery, input: any) => {
   const res = await attempt(() => query.create(input))
   return res.error ? jsonError('QUERY', ctx, res.error) : jsonOk(res.data)
@@ -88,4 +93,4 @@ const refreshAccToken = async (ctx: any) => {
   return jsonOk({ accessToken: newAccessToken })
 }
 
-export { listData, addData, editData, wipeData, loginUser, refreshAccToken }
+export { listData, addData, detailDataByUUID, editData, wipeData, loginUser, refreshAccToken }

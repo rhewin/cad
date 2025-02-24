@@ -1,6 +1,7 @@
 import { t } from 'elysia'
 import cfg from '@/config'
 
+const citizenIdLength = cfg.VALIDATION.CITIZEN_ID_LENGTH
 const minName = cfg.VALIDATION.MIN_NAME
 const maxName = cfg.VALIDATION.MAX_NAME
 const minPassword = cfg.VALIDATION.MIN_PASSWORD
@@ -10,6 +11,15 @@ const maxPhone = cfg.VALIDATION.MAX_PHONE
 const formatPhone = cfg.VALIDATION.REGEX_FORMAT_PHONE
 const formatStrongPassword = cfg.VALIDATION.REGEX_FORMAT_STRONG_PASSWORD
 const formatMediumPassword = cfg.VALIDATION.REGEX_FORMAT_MEDIUM_PASSWORD
+
+export const citizenIdRule = () =>
+  t.String({
+    minLength: citizenIdLength,
+    maxLength: citizenIdLength,
+    error: {
+      message: `[citizen_id] must ${citizenIdLength} characters`,
+    },
+  })
 
 export const fullnameRule = () =>
   t.String({
@@ -35,12 +45,26 @@ export const emailRule = () =>
     error: { message: '[email] invalid format' },
   })
 
+export const genderRule = (type: any) =>
+  t.Enum(type, {
+    error: { message: '[gender] invalid value' },
+  })
+
 export const phoneRule = () =>
   t.String({
     pattern: formatPhone,
     minLength: minPhone,
     maxLength: maxPhone,
     error: { message: '[phone] invalid format' },
+  })
+
+export const nationalityRule = () =>
+  t.String({
+    minLength: minName,
+    maxLength: maxName,
+    error: {
+      message: `[nationality] must be between ${minName} and ${maxName} characters`,
+    },
   })
 
 export const statusRule = (status: any) =>
@@ -66,6 +90,11 @@ export const mediumPasswordRule = () =>
     error: {
       message: '[password] must at least 8 chars and 1 number',
     },
+  })
+
+export const religionRule = (type: any) =>
+  t.Enum(type, {
+    error: { message: '[religion] invalid value' },
   })
 
 export const refreshToken = {
