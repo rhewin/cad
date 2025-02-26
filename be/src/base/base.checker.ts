@@ -1,16 +1,15 @@
 import { t } from 'elysia'
-import cfg from '@/config'
 
-const citizenIdLength = cfg.VALIDATION.CITIZEN_ID_LENGTH
-const minName = cfg.VALIDATION.MIN_NAME
-const maxName = cfg.VALIDATION.MAX_NAME
-const minPassword = cfg.VALIDATION.MIN_PASSWORD
-const maxPassword = cfg.VALIDATION.MAX_PASSWORD
-const minPhone = cfg.VALIDATION.MIN_PHONE
-const maxPhone = cfg.VALIDATION.MAX_PHONE
-const formatPhone = cfg.VALIDATION.REGEX_FORMAT_PHONE
-const formatStrongPassword = cfg.VALIDATION.REGEX_FORMAT_STRONG_PASSWORD
-const formatMediumPassword = cfg.VALIDATION.REGEX_FORMAT_MEDIUM_PASSWORD
+const citizenIdLength = 16
+const minName = 3
+const maxName = 50
+const minPassword = 8
+const maxPassword = 32
+const minPhone = 10
+const maxPhone = 15
+const formatPhone = '^\\+?[1-9]\\d{1,14}$'
+const formatMediumPassword = '^(?=.*[a-z])(?=.*\\d).{8,}$'
+const formatStrongPassword = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
 
 export const citizenIdRule = () =>
   t.String({

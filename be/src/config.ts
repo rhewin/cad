@@ -101,16 +101,4 @@ export default {
   REDIS_REFRESH_TOKEN_EXP: 60 * 60 * 24 * 7 + 60, // 7 days + 1 min (in seconds)
   RDB_MASTER_URL: process.env.RDB_MASTER_URL,
   RDB_REPLICA_URL: process.env.RDB_REPLICA_URL,
-  VALIDATION: {
-    CITIZEN_ID_LENGTH: 16,
-    MIN_NAME: 3,
-    MAX_NAME: 50,
-    MIN_PASSWORD: 8,
-    MAX_PASSWORD: 32,
-    MIN_PHONE: 10,
-    MAX_PHONE: 15,
-    REGEX_FORMAT_PHONE: '^\\+?[1-9]\\d{1,14}$',
-    REGEX_FORMAT_MEDIUM_PASSWORD: '^(?=.*[a-z])(?=.*\\d).{8,}$',
-    REGEX_FORMAT_STRONG_PASSWORD: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
-  },
 }
