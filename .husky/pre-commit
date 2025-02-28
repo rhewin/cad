@@ -1,5 +1,5 @@
 cd ./be
 bunx lint-staged
 
-cd ./fe_cms
+cd ../fe_cms
 bunx lint-staged
