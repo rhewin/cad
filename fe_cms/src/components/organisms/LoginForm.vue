@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import FormField from '@/components/molecules/FormField.vue';
-import Button from "@/components/atoms/Button.vue";
-import Link from "@/components/atoms/Link.vue";
-import LoadingSpinner from "@/components/molecules/LoadingSpinner.vue";
+  import { ref } from 'vue'
+  import FormField from '@/components/molecules/FormField.vue'
+  import Button from '@/components/atoms/Button.vue'
+  import Link from '@/components/atoms/Link.vue'
+  import LoadingSpinner from '@/components/molecules/LoadingSpinner.vue'
 
-const email = ref("");
-const password = ref("");
-const loading = ref(false);
+  const email = ref('')
+  const password = ref('')
+  const loading = ref(false)
 
-const handleLogin = () => {
-  loading.value = true;
-  setTimeout(() => {
-    console.log("Logging in with:", email.value, password.value);
-    loading.value = false;
-  }, 2000);
-};
+  const handleLogin = () => {
+    loading.value = true
+    setTimeout(() => {
+      console.log('Logging in with:', email.value, password.value)
+      loading.value = false
+    }, 2000)
+  }
 </script>
 
 <template>

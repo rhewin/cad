@@ -1,8 +1,8 @@
 <script setup lang="ts">
   defineProps<{
-    type?: "button" | "submit";
-    disabled?: boolean;
-  }>();
+    type?: 'button' | 'submit'
+    disabled?: boolean
+  }>()
 </script>
 
 <template>
