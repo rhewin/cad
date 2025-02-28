@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "stylelint.at-rule-no-unknown": {
+      "level": "off"
+    }
+  }
+}
